@@ -3,7 +3,7 @@
     <p>Choose from the list bellow to create your budget</p>
     <ul>
       <li>
-        <input type="checkbox" v-model="web" @click="toggleWebPrice">Website (500€)
+        <input type="checkbox" v-model="web" @click="toggleWebPrice(500)">Website (500€)
       </li>
       <li>
         <input type="checkbox" v-model="seo" @click="toggleSeoPrice">SEO Consulting (300€)
@@ -33,19 +33,28 @@ export default {
       totalPrice: 0
     }
   }, methods: {
-    toggleWebPrice() {
-      this.web = !this.web
-      if (!web) {
-        webPrice = 500
-        this.sumTotal()
+    toggleWebPrice(web) {
+      if (!this.web) {
+        this.webPrice = web
+      } else {
+        this.webPrice = 0
       }
+      this.sumTotal()
     },
     toggleSeoPrice() {
-      this.seoPrice = 300
+      if (!this.seo) {
+        this.seoPrice = 300
+      } else {
+        this.seoPrice = 0
+      }
       this.sumTotal()
     },
     toggleAdsPrice() {
-      this.adsPrice = 200
+      if (!this.ads) {
+        this.adsPrice = 200
+      } else {
+        this.adsPrice = 0
+      }
       this.sumTotal()
     },
     sumTotal() {
