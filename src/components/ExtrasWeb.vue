@@ -23,5 +23,18 @@ export default {
 </script>
 
 <style>
+.extras {
+    width: auto;
 
+    border: 3px solid black;
+    border-radius: 1em;
+
+    margin: 1em 0;
+    padding: 1em;
+}
+
+p {
+    display: block;
+    width: fit-content;
+}
 </style>

@@ -6,6 +6,7 @@
                 <!-- <input type="checkbox" v-model="item.service" :value="item.price" @click="sumPrice(item.service, item.price)"> -->
                 <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleService(item)">
                 {{ item.text}}
+                <ExtrasWeb v-show="item.id === 1 && item.service"/>
             </li>
         </ul>
         <p> Tota price: {{ totalPrice }} Eur</p>
@@ -13,8 +14,11 @@
 </template>
 
 <script>
+import ExtrasWeb from '@/components/ExtrasWeb.vue'
+
 export default {
     name: 'HomeAlt',
+    components: { ExtrasWeb },
     data() {
         return {
             services: [
