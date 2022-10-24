@@ -3,13 +3,13 @@
         <div>
             <label for="pages">How many pages do you need?</label>
             <!-- min="1" for the input does not avoid user's ability to manually insert negative numbers, this is handled in the method that calculates extras -->
-            <input type="number" v-model="pages" @click="sumExtrasPrice">
+            <input type="number" v-model="pages" @click="addExtras">
         </div>
         <div>
             <label for="pages">In how many different languages?</label>
             <!-- min="1" for the input does not avoid user's ability to manually insert negative numbers, this is handled in the method that calculates extras -->
-            <input type="number" v-model="languages" @click="sumExtrasPrice">
-            <p> precio extra: {{ extrasPrice }} eur </p>
+            <input type="number" v-model="languages" @change="addExtras">
+            <!-- <p> Extra Webs Price: {{ extrasPrice }} Eur </p> -->
         </div>
     </form>
 </template>
@@ -18,28 +18,35 @@
 export default {
     // props: ['pages', 'languages'],
     props: ['pages', 'languages', 'extraWeb'],
-    data() {
-        return {
-            extrasPrice: 0
-        }
-    },
-    methods:{
+    // emits: ['addPages', 'addLanguages'],
+    emits: ['addExtras'],
+    // data() {
+    //     return {
+    //         pages: 5,
+    //         languages: 3,
+    //         extrasPrice: 0
+    //     }
+    // },
+    methods: {
         //PASAR EL MÉTODO A HOME Y LLAMARLO USANDO EMITS, USAR WATCH PARA VER CUÁNDO EL USUARIO CAMBIA VALORES
-        sumExtrasPrice(){
-            if (this.pages <= 1 && this.languages <= 1) {
-                this.extrasPrice = 0
-            } else {
-                this.extrasPrice = this.pages * this.languages * this.extraWeb
-            }
-
-        }
+        addExtras() {
+            // this.$emit('add')
+            this.$emit('addExtras', this.pages, this.languages)
+            // console.log(this.pages, this.languages)
+        } 
     },
-    // watch: {
-
-    // }
-
+    watch: {
+        pages() {
+            this.addExtras()
+        },
+        languages() {
+            this.addExtras()
+        },
+    }
 }
+    
 </script>
+
 <style>
 
 .extras {
