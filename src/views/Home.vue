@@ -1,19 +1,16 @@
 <template>
   <div class="budget-box">
-    <p>Choose from the list bellow to create your budget</p>
+    <p>BUDGET</p>
     <ul>
       <li>
-        <!-- <input type="checkbox" v-model="web" @click="addPrice(0, 500)">Website (500€) -->
         <input type="checkbox" v-model="web" @click="toggleWebPrice(500)">Website (500€)
-        <ExtrasWeb />
+        <ExtrasWeb v-show="web"/>
       </li>
       <li>
-        <!-- <input type="checkbox" v-model="seo" @click="addPrice(1, 300)">SEO Consulting (300€) -->
-        <input type="checkbox" v-model="seo" @click="toggleSeoPrice">SEO Consulting (300€)
+        <input type="checkbox" v-model="seo" @click="toggleSeoPrice(300)">SEO Consulting (300€)
       </li>
       <li>
-        <!-- <input type="checkbox" v-model="ads" @click="addPrice(2, 200)">Google Ads Campaing (200€) -->
-        <input type="checkbox" v-model="ads" @click="toggleAdsPrice">Google Ads Campaing (200€)
+        <input type="checkbox" v-model="ads" @click="toggleAdsPrice(200)">Google Ads Campaing (200€)
       </li>
     </ul>
     <p>Total: {{totalPrice}} Euros </p>
@@ -21,11 +18,12 @@
 </template>
 
 <script>
-import ExtrasWeb from '@/components/ExtrasWeb.vue'
+// import ExtrasWeb from '@/components/ExtrasWeb.vue'
+// import Budget from '@/components/Budget.vue'
 
 export default {
-  components: { ExtrasWeb },
   name: 'Home', 
+  // components: { ExtrasWeb, Budget },
   data () {
     return {
       web : false,
@@ -52,23 +50,26 @@ export default {
       //extraWeb(webs,languages)
       this.sumTotal()
     },
-    toggleSeoPrice() {
-      if (!this.seo) {
-        this.seoPrice = 300
+    toggleSeoPrice(seo) {
+      console.log(seo)
+      console.log(this.seo)
+      if (this.seo == true) {
+        console.log(seo)
+        console.log(this.seo)
+        this.seoPrice = seo
       } else {
         this.seoPrice = 0
       }
       this.sumTotal()
     },
-    toggleAdsPrice() {
-      if (!this.ads) {
-        this.adsPrice = 200
+    toggleAdsPrice(ads) {
+      if (this.ads === true) {
+        this.adsPrice = ads
       } else {
         this.adsPrice = 0
       }
       this.sumTotal()
     },
-
     // add arrow function with iteration method that will calculate price of each element on the price array
     // addPrice (service, price) {
     //   if (this.price[service]){

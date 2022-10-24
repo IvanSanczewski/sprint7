@@ -8,7 +8,7 @@ const routes = [
   //   name: 'home',
   //   component: Home
   // },
-  {
+  { 
     path: '/',
     name: 'homeAlt',
     component: homeAlt

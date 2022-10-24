@@ -15,11 +15,11 @@
 </template>
 
 <script>
+
 export default {
-    // props: ['pages', 'languages'],
+
     props: ['pages', 'languages', 'extraWeb'],
-    // emits: ['addPages', 'addLanguages'],
-    emits: ['addExtras'],
+    emits: ['sumUpExtras'],
     // data() {
     //     return {
     //         pages: 5,
@@ -27,21 +27,23 @@ export default {
     //         extrasPrice: 0
     //     }
     // },
-    methods: {
-        //PASAR EL MÉTODO A HOME Y LLAMARLO USANDO EMITS, USAR WATCH PARA VER CUÁNDO EL USUARIO CAMBIA VALORES
-        addExtras() {
-            // this.$emit('add')
-            this.$emit('addExtras', this.pages, this.languages)
-            // console.log(this.pages, this.languages)
-        } 
-    },
     watch: {
-        pages() {
+        pages(newValue, oldValue) {
+            console.log(`new: ${newValue}, old: ${oldValue}`)
+            pages = newValue
+            console.log(this.pages, newValue)
             this.addExtras()
         },
         languages() {
             this.addExtras()
         },
+    },
+    methods: {
+        //PASAR EL MÉTODO A HOME Y LLAMARLO USANDO EMITS, USAR WATCH PARA VER CUÁNDO EL USUARIO CAMBIA VALORES
+        addExtras(pages) {
+            this.$emit('sumUpExtras', pages, this.languages)
+            console.log(pages, this.languages)
+        } 
     }
 }
     
