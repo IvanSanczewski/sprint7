@@ -10,6 +10,7 @@
             </li>
         </ul>
         <p> Total Extras: {{ extrasPrice }} Eur</p>
+        <p> Total price: {{ servicesPrice }} Eur</p>
         <p> Total price: {{ totalPrice }} Eur</p>
     </form>
 </template>
@@ -28,14 +29,16 @@ export default {
                 {id: 3, service: false, text:'Google Ads Campaign (200 €)', price: 200},
             ],
             includedServices: [],
-            pages: 2,
+            pages: 1,
             languages: 1,
             extraWeb: 30,
             extrasPrice: 0,
+            servicesPrice:0,
             totalPrice: 0
         }
     },
     methods: {
+       
         toggleWeb(item) {
             // al pasar item como argumento desde el evento todas las instrucciones hay que hacerlas a partir de item.loQueSea
             item.service = !item.service
@@ -45,25 +48,27 @@ export default {
             this.sumService(this.includedServices)
         },
         sumService(includedServices) {
-            this.totalPrice = 0
+            this.servicesPrice = 0
             includedServices.forEach ((item) => {
-                this.totalPrice += item.price 
-                // if (item.id === 1 && item.service) {
-                //     // if (this.pages > 1 || this.languages >1) {
-                //         this.totalPrice += this.pages * this.languages * extrasPrice
-                //     // }
-                // }    
+                this.servicesPrice += item.price  
             })
+            this.sumTotal()
+            // this.sumTotal(this.servicesPrice)
         },
-        sumExtras() {
-            console.log(this.pages, this.languages)
-            if (this.pages <= 1 && this.languages <= 1) {
+        sumExtras(pages, languages) {
+            if (pages <= 1 && languages <= 1) {
                 this.extrasPrice = 0
             } else {
-                this.extrasPrice = this.pages * this.languages * this.extraWeb
+                this.extrasPrice = pages * languages * this.extraWeb
+                // this.extrasPrice = this.pages * this.languages * this.extraWeb
             }
-            console.log(this.pages, this.languages)
-        }
+            this.sumTotal()
+            // this.sumTotal(this.extrasPrice)
+        },
+        // try to call it with arguments, bur so far it does not work
+        sumTotal() {
+            this.totalPrice = this.servicesPrice + this.extrasPrice
+        },
     }
 }
 </script>

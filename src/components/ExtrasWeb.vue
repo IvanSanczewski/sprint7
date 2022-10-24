@@ -20,18 +20,8 @@ export default {
 
     props: ['pages', 'languages', 'extraWeb'],
     emits: ['sumUpExtras'],
-    // data() {
-    //     return {
-    //         pages: 5,
-    //         languages: 3,
-    //         extrasPrice: 0
-    //     }
-    // },
     watch: {
-        pages(newValue, oldValue) {
-            console.log(`new: ${newValue}, old: ${oldValue}`)
-            pages = newValue
-            console.log(this.pages, newValue)
+        pages() {
             this.addExtras()
         },
         languages() {
@@ -40,9 +30,8 @@ export default {
     },
     methods: {
         //PASAR EL MÉTODO A HOME Y LLAMARLO USANDO EMITS, USAR WATCH PARA VER CUÁNDO EL USUARIO CAMBIA VALORES
-        addExtras(pages) {
-            this.$emit('sumUpExtras', pages, this.languages)
-            console.log(pages, this.languages)
+        addExtras() {
+            this.$emit('sumUpExtras', this.pages, this.languages)
         } 
     }
 }
