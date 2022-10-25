@@ -39,14 +39,22 @@ export default {
 </script>
 
 <style>
-
 .extras {
-    width: auto;
-
-    border: 3px solid black;
-    border-radius: 1em;
-
     margin: 1em 0;
     padding: 1em;
+
+    max-width: fit-content;
+    
+    border: 3px solid black;
+    border-radius: 1em;
+    
+}
+.extras div{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    column-gap: 1.5em;
+
+    margin: .5em 0;
 }
 </style>
