@@ -18,7 +18,7 @@
                 <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
                 
                 <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
-                <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" />
+                <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" @countTotalPages="sumTotalPages" @countTotalLanguages="sumTotalLanguages"  />
                 <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
 
 
@@ -74,7 +74,6 @@ export default {
         },
         // implement non-negative extras
         sumExtras(pages, languages) {
-            console.log(pages, languages)
             if (pages <= 1) {
                 this.pages = 1
             }
@@ -135,7 +134,14 @@ export default {
                 // this.sumExtras(this.pages, this.languages)
                 this.sumExtras(this.pages, this.languages)
             }
-
+        },
+        sumTotalPages(pages) {
+            this.pages = pages
+            this.sumExtras(pages, this.languages)
+        },
+        sumTotalLanguages(languages) {
+            this.languages = languages
+            this.sumExtras(this.pages, languages)
         }
     }
 }
