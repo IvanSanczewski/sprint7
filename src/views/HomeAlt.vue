@@ -1,5 +1,12 @@
 <template>
-    <form class="budget-box">
+    <div v-show="showWelcome" class="welcome">
+        <h1>WEB CREATORS</h1>
+        <h3>Welcome to Web Creators</h3>
+        <p>Press Start to create a budget</p>
+        <button @click="toggleWelcome">START</button>
+    </div>
+    // POSSIBLY IS BETTER TO USE V-IF !showWelcome
+    <form v-show="!showWelcome" class="budget-box">
         <p>Choose from the list bellow to create your budget</p>
         <ul>
             <li v-for="item, id in services" :key="id">
@@ -30,15 +37,18 @@
         <p> Total price: {{ servicesPrice }} Eur</p>
         <p> Total price: {{ totalPrice }} Eur</p>
     </form>
+    <!-- <SurfSite @previous="backwardsPage" @next="forwardPage"/> -->
 </template>
 
 <script>
 import ExtrasWeb from '@/components/ExtrasWeb.vue'
 import ExtrasCounter from '@/components/ExtrasCounter.vue'
+// import SurfSite from '@/components/SurfSite.vue'
 
 export default {
     name: 'HomeAlt',
-    components: { ExtrasWeb, ExtrasCounter },
+    components: { ExtrasWeb, ExtrasCounter},
+    // components: { ExtrasWeb, ExtrasCounter, SurfSite },
     data() {
         return {
             services: [
@@ -52,7 +62,8 @@ export default {
             extraWeb: 30,
             extrasPrice: 0,
             servicesPrice:0,
-            totalPrice: 0
+            totalPrice: 0,
+            showWelcome: true,
         }
     },
     methods: {
@@ -142,7 +153,17 @@ export default {
         sumTotalLanguages(languages) {
             this.languages = languages
             this.sumExtras(this.pages, languages)
-        }
+        },
+        toggleWelcome(){
+            this.showWelcome = !this.showWelcome
+        },
+        // backwardsPage(){
+
+        // },
+        // forwardPage(){
+
+        // }
+
     }
 }
 </script>
