@@ -6,7 +6,24 @@
                 <!-- <input type="checkbox" v-model="item.service" :value="item.price" @click="sumPrice(item.service, item.price)"> -->
                 <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
                 {{ item.text}}
-                <ExtrasWeb v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" :extraWeb="extraWeb" @sumUpExtras="sumExtras"/>
+                <!-- extraWeb is not needed in ExtrasWeb.vue component because calculation is applied in HomeAlt.vue -->
+
+                <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
+                <ExtrasWeb v-if="item.id === 1 && item.service" @sumUpExtras="sumExtras"/>
+                <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"  @addPage="addOnePage" @subtractPage="subtractOnePage" /> -->
+                
+                
+                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
+                <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"   @updatePages="updateTotalPages" /> -->
+                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
+                
+                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
+                <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" />
+                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
+
+
+                <!-- <ExtrasWeb v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" :extraWeb="extraWeb" @sumUpExtras="sumExtras"/> -->
+                <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
             </li>
         </ul>
         <p> Total Extras: {{ extrasPrice }} Eur</p>
@@ -17,10 +34,11 @@
 
 <script>
 import ExtrasWeb from '@/components/ExtrasWeb.vue'
+import ExtrasCounter from '@/components/ExtrasCounter.vue'
 
 export default {
     name: 'HomeAlt',
-    components: { ExtrasWeb },
+    components: { ExtrasWeb, ExtrasCounter },
     data() {
         return {
             services: [
@@ -38,7 +56,6 @@ export default {
         }
     },
     methods: {
-       
         toggleWeb(item) {
             // al pasar item como argumento desde el evento todas las instrucciones hay que hacerlas a partir de item.loQueSea
             item.service = !item.service
@@ -55,7 +72,15 @@ export default {
             this.sumTotal()
             // this.sumTotal(this.servicesPrice)
         },
+        // implement non-negative extras
         sumExtras(pages, languages) {
+            console.log(pages, languages)
+            if (pages <= 1) {
+                this.pages = 1
+            }
+            if (languages <= 1) {
+                this.languages = 1
+            }
             if (pages <= 1 && languages <= 1) {
                 this.extrasPrice = 0
             } else {
@@ -63,12 +88,55 @@ export default {
                 // this.extrasPrice = this.pages * this.languages * this.extraWeb
             }
             this.sumTotal()
-            // this.sumTotal(this.extrasPrice)
         },
-        // try to call it with arguments, bur so far it does not work
+        // sumExtras(pages, languages) {
+        //     console.log(pages, languages);
+        //     if (pages <= 1 && languages <= 1) {
+        //         this.extrasPrice = 0
+        //     } else {
+        //         this.extrasPrice = pages * languages * this.extraWeb
+        //         // this.extrasPrice = this.pages * this.languages * this.extraWeb
+        //     }
+        //     this.sumTotal()
+        // },
         sumTotal() {
             this.totalPrice = this.servicesPrice + this.extrasPrice
         },
+        addOnePage(){
+            this.pages ++
+            console.log(this.pages)
+            this.sumExtras(this.pages, this.languages)
+        },
+        subtractOnePage(){
+            this.pages --
+            console.log(this.pages)
+            this.sumExtras(this.pages, this.languages)
+        },
+        updateTotalPages(action){
+            console.log(action)
+            if (action === 'add'){
+                this.addOnePage()
+            } else if (action === 'subtract') {
+                this.subtractOnePage()
+            }
+        },
+        modifyTotalExtras(extra, action){
+            if (extra === 'pages' && action === 'add'){
+                this.pages++
+                this.sumExtras(this.pages, this.languages)
+            } else if (extra === 'pages' && action === 'subtract'){
+                this.pages--
+                this.sumExtras(this.pages, this.languages)
+            } else if (extra === 'languages' && action === 'add'){
+                this.languages++
+                this.sumExtras(this.pages, this.languages)
+            } else if (extra === 'languages' && action === 'subtract'){
+                this.languages--
+                // this.sumExtras(this.pages, this.languages)
+                this.sumExtras(this.pages, this.languages)
+            }
+
+        }
     }
 }
 </script>
