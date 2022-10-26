@@ -27,13 +27,23 @@
 <script>
 export default {
     name: 'ExtrasCounter',
-    emits: ['modifyExtras', 'countTotalPages', 'countTotalLanguages'],
     props: ['pages', 'languages'],
+    emits: ['modifyExtras', 'countTotalPages', 'countTotalLanguages'],
     data() {
         return {
             totalPages: 0,
             totalLanguages: 0,
         }
+    },
+    watch:{
+        pages(){
+            this.totalPages = this.pages
+            this.$emit('countTotalPages', this.totalPages)
+        },
+        languages(){
+            this.totalLanguages = this.languages
+            this.$emit('countTotalLanguages', this.totalLanguages)
+        },
     },
     methods: {
         // implement one single function with different arguments in each given case
