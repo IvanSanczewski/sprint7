@@ -53,10 +53,10 @@ export default {
     //     }
     // },
     // methods: {
-        //PASAR EL MÉTODO A HOME Y LLAMARLO USANDO EMITS, USAR WATCH PARA VER CUÁNDO EL USUARIO CAMBIA VALORES
+        // PASAR EL MÉTODO A HOME Y LLAMARLO USANDO EMITS, USAR WATCH PARA VER CUÁNDO EL USUARIO CAMBIA VALORES
         // addExtras() {
         //     this.$emit('sumUpExtras', this.pages, this.languages)
-            // this.$emit('sumUpExtras', this.languages)
+        //     this.$emit('sumUpExtras', this.languages)
         // },
         // addOnePageMore(){
         //     this.updatedpages++
