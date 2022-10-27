@@ -1,37 +1,21 @@
 <template>
-
-    <!-- POSSIBLY IS BETTER TO USE V-IF !showWelcome -->
-    <!-- <form v-show="!showWelcome" class="budget-box"> -->
     <form class="budget-box">
-        <p>Choose from the list bellow to create your budget</p>
+        <h3>Choose from the list bellow to create your budget</h3>
         <ul>
             <li v-for="item, id in services" :key="id">
-                <!-- <input type="checkbox" v-model="item.service" :value="item.price" @click="sumPrice(item.service, item.price)"> -->
+                
                 <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
                 {{ item.text}}
-                <!-- extraWeb is not needed in ExtrasWeb.vue component because calculation is applied in HomeAlt.vue -->
-
-                <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
-                <ExtrasWeb v-if="item.id === 1 && item.service" @sumUpExtras="sumExtras"/>
-                <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"  @addPage="addOnePage" @subtractPage="subtractOnePage" /> -->
                 
-                
-                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
-                <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"   @updatePages="updateTotalPages" /> -->
-                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
-                
-                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
-                <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" @countTotalPages="sumTotalPages" @countTotalLanguages="sumTotalLanguages"  />
-                <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
+                <div v-if="item.id === 1 && item.service" class="extras">
+                    <ExtrasWeb @sumUpExtras="sumExtras"/>
+                    <ExtrasCounter :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" @countTotalPages="sumTotalPages" @countTotalLanguages="sumTotalLanguages" />
+                </div>
 
-
-                <!-- <ExtrasWeb v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" :extraWeb="extraWeb" @sumUpExtras="sumExtras"/> -->
-                <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
             </li>
+            
         </ul>
-        <p> Total Extras: {{ extrasPrice }} Eur</p>
-        <p> Total price: {{ servicesPrice }} Eur</p>
-        <p> Total price: {{ totalPrice }} Eur</p>
+        <h4> Total price: {{ totalPrice }} Eur</h4>
     </form>
     
     <router-link :to="{name: 'Welcome'}">
@@ -169,6 +153,20 @@ export default {
 </script>
 
 <style>
+
+.extras{
+    max-width: fit-content;
+    margin: 1em 0;
+    padding: 1em;
+
+    border: 3px solid black;
+    border-radius: .5em;
+
+    display: flex;
+    flex-flow: row nowrap;
+    column-gap: 2.5em;
+}
+
 ul {
   list-style: none;
   padding-inline-start: 0;
@@ -178,3 +176,29 @@ ul {
   text-align: left;
 }
 </style>
+
+
+
+<li v-for="item, id in services" :key="id">
+    <!-- <input type="checkbox" v-model="item.service" :value="item.price" @click="sumPrice(item.service, item.price)"> -->
+    <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
+    {{ item.text}}
+    <!-- extraWeb is not needed in ExtrasWeb.vue component because calculation is applied in HomeAlt.vue -->
+
+    <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
+    <ExtrasWeb v-if="item.id === 1 && item.service" @sumUpExtras="sumExtras"/>
+    <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"  @addPage="addOnePage" @subtractPage="subtractOnePage" /> -->
+    
+    
+    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
+    <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"   @updatePages="updateTotalPages" /> -->
+    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
+    
+    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
+    <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" @countTotalPages="sumTotalPages" @countTotalLanguages="sumTotalLanguages" />
+    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
+
+
+    <!-- <ExtrasWeb v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" :extraWeb="extraWeb" @sumUpExtras="sumExtras"/> -->
+    <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
+</li>
