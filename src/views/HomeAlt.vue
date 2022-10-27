@@ -6,18 +6,23 @@
                 
                 <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
                 {{ item.text}}
-                
+
                 <div v-if="item.id === 1 && item.service" class="extras">
-                    <ExtrasWeb @sumUpExtras="sumExtras"/>
-                    <ExtrasCounter :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" @countTotalPages="sumTotalPages" @countTotalLanguages="sumTotalLanguages" />
+                    <ExtrasWeb 
+                        @sumUpExtras="sumExtras"/>
+                    <ExtrasCounter 
+                        :pages="pages"
+                        :languages="languages"
+                        @modifyExtras="modifyTotalExtras"
+                        @countTotalPages="sumTotalPages"
+                        @countTotalLanguages="sumTotalLanguages" />
                 </div>
 
             </li>
-            
         </ul>
         <h4> Total price: {{ totalPrice }} Eur</h4>
     </form>
-    
+
     <router-link :to="{name: 'Welcome'}">
         <button>BACKWARDS</button>
     </router-link>
@@ -27,12 +32,10 @@
 <script>
 import ExtrasWeb from '@/components/ExtrasWeb.vue'
 import ExtrasCounter from '@/components/ExtrasCounter.vue'
-// import SurfSite from '@/components/SurfSite.vue'
 
 export default {
     name: 'HomeAlt',
     components: { ExtrasWeb, ExtrasCounter},
-    // components: { ExtrasWeb, ExtrasCounter, SurfSite },
     data() {
         return {
             services: [
@@ -65,7 +68,6 @@ export default {
                 this.servicesPrice += item.price  
             })
             this.sumTotal()
-            // this.sumTotal(this.servicesPrice)
         },
         // implement non-negative extras
         sumExtras(pages, languages) {
@@ -77,37 +79,31 @@ export default {
             }
             if (pages <= 1 && languages <= 1) {
                 this.extrasPrice = 0
-            } else {
+            }
+            // if (this.includedServices.id.includes('1')) {
+            //     console.log('FOUND');
+            // }
+            else {
                 this.extrasPrice = pages * languages * this.extraWeb
-                // this.extrasPrice = this.pages * this.languages * this.extraWeb
             }
             this.sumTotal()
         },
-        // sumExtras(pages, languages) {
-        //     console.log(pages, languages);
-        //     if (pages <= 1 && languages <= 1) {
-        //         this.extrasPrice = 0
-        //     } else {
-        //         this.extrasPrice = pages * languages * this.extraWeb
-        //         // this.extrasPrice = this.pages * this.languages * this.extraWeb
-        //     }
-        //     this.sumTotal()
-        // },
         sumTotal() {
-            this.totalPrice = this.servicesPrice + this.extrasPrice
+            if (this.services[0].service === true) {
+                this.totalPrice = this.servicesPrice + this.extrasPrice
+            } else {
+                this.totalPrice = this.servicesPrice
+            }
         },
         addOnePage(){
             this.pages ++
-            console.log(this.pages)
             this.sumExtras(this.pages, this.languages)
         },
         subtractOnePage(){
             this.pages --
-            console.log(this.pages)
             this.sumExtras(this.pages, this.languages)
         },
         updateTotalPages(action){
-            console.log(action)
             if (action === 'add'){
                 this.addOnePage()
             } else if (action === 'subtract') {
@@ -138,22 +134,11 @@ export default {
             this.languages = languages
             this.sumExtras(this.pages, languages)
         }
-        // toggleWelcome(){
-        //     this.showWelcome = !this.showWelcome
-        // },
-        // backwardsPage(){
-
-        // },
-        // forwardPage(){
-
-        // }
-
     }
 }
 </script>
 
 <style>
-
 .extras{
     max-width: fit-content;
     margin: 1em 0;
@@ -176,29 +161,3 @@ ul {
   text-align: left;
 }
 </style>
-
-
-
-<li v-for="item, id in services" :key="id">
-    <!-- <input type="checkbox" v-model="item.service" :value="item.price" @click="sumPrice(item.service, item.price)"> -->
-    <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
-    {{ item.text}}
-    <!-- extraWeb is not needed in ExtrasWeb.vue component because calculation is applied in HomeAlt.vue -->
-
-    <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
-    <ExtrasWeb v-if="item.id === 1 && item.service" @sumUpExtras="sumExtras"/>
-    <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"  @addPage="addOnePage" @subtractPage="subtractOnePage" /> -->
-    
-    
-    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
-    <!-- <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages"   @updatePages="updateTotalPages" /> -->
-    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA PAGES -->
-    
-    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
-    <ExtrasCounter v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" @modifyExtras="modifyTotalExtras" @countTotalPages="sumTotalPages" @countTotalLanguages="sumTotalLanguages" />
-    <!-- PROBAMOS UNA SOLA FUNCIÓN PARA EL COMPONENTE -->
-
-
-    <!-- <ExtrasWeb v-if="item.id === 1 && item.service" :pages="pages" :languages="languages" :extraWeb="extraWeb" @sumUpExtras="sumExtras"/> -->
-    <!-- PROBAMOS CON 2 HIJOS EN VEZ DE HIJO Y NIETO -->
-</li>
