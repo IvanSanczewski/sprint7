@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import Home from '../views/Home.vue'
-import homeAlt from '../views/HomeAlt.vue'
+import Welcome from '../views/Welcome.vue'
+import HomeAlt from '../views/HomeAlt.vue'
 
 const routes = [
   // {
@@ -10,10 +11,14 @@ const routes = [
   // },
   { 
     path: '/',
-    name: 'homeAlt',
-    component: homeAlt
+    component: Welcome,
+    name: 'Welcome',
   },
-  
+  { 
+    path: '/home',
+    name: 'homeAlt',
+    component: HomeAlt
+  }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

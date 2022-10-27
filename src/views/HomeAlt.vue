@@ -1,12 +1,8 @@
 <template>
-    <div v-show="showWelcome" class="welcome">
-        <h1>WEB CREATORS</h1>
-        <h3>Welcome to Web Creators</h3>
-        <p>Press Start to create a budget</p>
-        <button @click="toggleWelcome">START</button>
-    </div>
-    // POSSIBLY IS BETTER TO USE V-IF !showWelcome
-    <form v-show="!showWelcome" class="budget-box">
+
+    <!-- POSSIBLY IS BETTER TO USE V-IF !showWelcome -->
+    <!-- <form v-show="!showWelcome" class="budget-box"> -->
+    <form class="budget-box">
         <p>Choose from the list bellow to create your budget</p>
         <ul>
             <li v-for="item, id in services" :key="id">
@@ -37,6 +33,7 @@
         <p> Total price: {{ servicesPrice }} Eur</p>
         <p> Total price: {{ totalPrice }} Eur</p>
     </form>
+    <button>BACKWARDS</button>
     <!-- <SurfSite @previous="backwardsPage" @next="forwardPage"/> -->
 </template>
 
@@ -153,10 +150,10 @@ export default {
         sumTotalLanguages(languages) {
             this.languages = languages
             this.sumExtras(this.pages, languages)
-        },
-        toggleWelcome(){
-            this.showWelcome = !this.showWelcome
-        },
+        }
+        // toggleWelcome(){
+        //     this.showWelcome = !this.showWelcome
+        // },
         // backwardsPage(){
 
         // },
