@@ -1,6 +1,6 @@
 <template>
     <form>
-        <div class="extras">
+        <div class="extras-services">
             <!-- <div> -->
                 <!-- <div> -->
                     <label for="pages">How many pages do you need?</label>
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-// import ExtrasCounter from '@/components/ExtrasCounter.vue'
 
 export default {
     name: 'ExtrasWeb',
@@ -68,21 +67,14 @@ export default {
 </script>
 
 <style>
-.extras {
-    margin: 1em 0;
-    padding: 1em;
-
-    max-width: fit-content;
-    
-    border: 3px solid black;
-    border-radius: 1em;
-    
+.extras-services {
     display: flex;
     flex-flow: column wrap;
-    /* flex-flow: row wrap; */
-    justify-content: space-between;
+    justify-content: space-around;
     
-    margin: .5em 0;
+    row-gap: 2.5em;
+
+    
 }
 
 input {
