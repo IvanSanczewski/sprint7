@@ -33,8 +33,11 @@
         <p> Total price: {{ servicesPrice }} Eur</p>
         <p> Total price: {{ totalPrice }} Eur</p>
     </form>
-    <button>BACKWARDS</button>
-    <!-- <SurfSite @previous="backwardsPage" @next="forwardPage"/> -->
+    
+    <router-link :to="{name: 'Welcome'}">
+        <button>BACKWARDS</button>
+    </router-link>
+
 </template>
 
 <script>
