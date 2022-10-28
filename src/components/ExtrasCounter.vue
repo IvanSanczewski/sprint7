@@ -26,17 +26,19 @@ export default {
     emits: ['modifyExtras', 'countTotalPages', 'countTotalLanguages'],
     data() {
         return {
-            totalPages: 0,
-            totalLanguages: 0,
+            totalPages: 1,
+            totalLanguages: 1,
         }
     },
     watch:{
         pages(){
-            this.totalPages = this.pages
+            // make this.pages absolute number since watch is active on change of text type and may accept negative value
+            this.totalPages = Math.abs(this.pages)
             this.$emit('countTotalPages', this.totalPages)
         },
         languages(){
-            this.totalLanguages = this.languages
+            // make this.pages absolute number since watch is active on change of text type and may accept negative value
+            this.totalLanguages = Math.abs(this.languages)
             this.$emit('countTotalLanguages', this.totalLanguages)
         },
     },
@@ -46,13 +48,11 @@ export default {
             this.$emit('modifyExtras', extra, action)
         },
         countPages(pages){
-            console.log(pages)
             this.totalPages = pages
             console.log(pages, this.totalPages)
             this.$emit('countTotalPages', this.totalPages)
         },
         countLanguages(languages){
-            console.log(languages)
             this.totalLanguages = languages
             console.log(languages, this.totalLanguages)
             this.$emit('countTotalLanguages', this.totalLanguages)

@@ -80,9 +80,6 @@ export default {
             if (pages <= 1 && languages <= 1) {
                 this.extrasPrice = 0
             }
-            // if (this.includedServices.id.includes('1')) {
-            //     console.log('FOUND');
-            // }
             else {
                 this.extrasPrice = pages * languages * this.extraWeb
             }
@@ -115,14 +112,13 @@ export default {
                 this.pages++
                 this.sumExtras(this.pages, this.languages)
             } else if (extra === 'pages' && action === 'subtract'){
-                this.pages--
+                this.pages === 1 ? this.pages = 1 : this.pages --
                 this.sumExtras(this.pages, this.languages)
             } else if (extra === 'languages' && action === 'add'){
                 this.languages++
                 this.sumExtras(this.pages, this.languages)
             } else if (extra === 'languages' && action === 'subtract'){
-                this.languages--
-                // this.sumExtras(this.pages, this.languages)
+                this.languages === 1 ? this.languages = 1 : this.languages --
                 this.sumExtras(this.pages, this.languages)
             }
         },
