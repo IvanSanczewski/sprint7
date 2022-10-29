@@ -23,6 +23,8 @@
         <h4> Total price: {{ totalPrice }} Eur</h4>
     </form>
 
+    <Budgets />
+
     <router-link :to="{name: 'Welcome'}">
         <button>BACKWARDS</button>
     </router-link>
@@ -32,10 +34,11 @@
 <script>
 import ExtrasWeb from '@/components/ExtrasWeb.vue'
 import ExtrasCounter from '@/components/ExtrasCounter.vue'
+import Budgets from '@/components/Budgets.vue'
 
 export default {
     name: 'HomeAlt',
-    components: { ExtrasWeb, ExtrasCounter},
+    components: { ExtrasWeb, ExtrasCounter, Budgets},
     data() {
         return {
             services: [
