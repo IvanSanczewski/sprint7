@@ -4,7 +4,6 @@
             <h3>Welcome to</h3>
             <h1>WEB CREATORS</h1>
             <p>Press Start to create your own budget</p>
-        
             <router-link :to="{name: 'HomeAlt'}">
                 <button>START</button>
             </router-link>
@@ -14,7 +13,6 @@
 
 <script>
 export default {
-
 }
 </script>
 
