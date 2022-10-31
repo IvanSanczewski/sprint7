@@ -1,37 +1,42 @@
 <template>
-    <form class="budget-box" @submit.prevent="saveBudget">
-        <h3>Choose from the list bellow to create your budget</h3>
-        <ul>
-            <li v-for="item, id in services" :key="id">
-                <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
-                {{ item.text}}
-
-                <div v-if="item.id === 1 && item.service" class="extras">
-                    <ExtrasWeb :pages="pages" :languages="languages"/>
-                    <ExtrasCounter 
-                        :pages="pages"
-                        :languages="languages"
-                        @modifyExtras="modifyTotalExtras"
-                        @countTotalPages="sumTotalPages"
-                        @countTotalLanguages="sumTotalLanguages" />
+    <!-- <form class="budget-box" @submit.prevent="checkBudget"> -->
+    <div class="container-services-budgets">
+        <form class="budget-box" @submit.prevent="saveBudget">
+            <div class="services-list">
+                <h2>Choose from the list bellow to create your budget</h2>
+                <ul>
+                    <li v-for="item, id in services" :key="id">
+                        <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
+                        {{ item.text}}
+                        <div v-if="item.id === 1 && item.service" class="extras">
+                            <ExtrasWeb :pages="pages" :languages="languages"/>
+                            <ExtrasCounter
+                                :pages="pages"
+                                :languages="languages"
+                                @modifyExtras="modifyTotalExtras"
+                                @countTotalPages="sumTotalPages"
+                                @countTotalLanguages="sumTotalLanguages" />
+                        </div>
+                    </li>
+                </ul>
+                <h4> Total price: {{ totalPrice }} Eur</h4>
+            </div>
+            <div>
+                <div class="budget">
+                    <label for="budget">Type a name for your new budget:</label>
+                    <input type="text" v-model="budgetName" placeholder="">
                 </div>
-            </li>
-        </ul>
-        <h4> Total price: {{ totalPrice }} Eur</h4>
+                <div>
+                    <label for="budget">Type your name:</label>
+                    <input type="text" v-model="clientName" placeholder="">
+                </div>
+            </div>
+            <button class="saveBudget">Save Budget</button>
+        </form>
+        <Budgets class="budgets-list" :budgetsList="budgetsList" />
+    </div><!-- container-services-budgets -->
 
-        <div class="budget">
-            <label for="budget">Type a name for your new budget:</label>
-            <input type="text" v-model="budgetName" placeholder="">
-        </div>
-        <div>
-            <label for="budget">Type your name:</label>
-            <input type="text" v-model="clientName" placeholder="">
-        </div>
-    <button class="saveBudget">Save Budget</button>
 
-    </form>
-
-    <Budgets :budgetsList="budgetsList" />
 
     <router-link :to="{name: 'Welcome'}">
         <button>BACKWARDS</button>
@@ -84,7 +89,6 @@ export default {
             })
             this.sumTotal()
         },
-        // implement non-negative extras
         sumExtras(pages, languages) {
             if (pages <= 1) {
                 this.pages = 1
@@ -145,8 +149,8 @@ export default {
             this.languages = languages
             this.sumExtras(this.pages, languages)
         },
-        saveBudget () {
-            if( this.includedServices.length > 0 && this.budgetName != '' && this.clientName != '') {
+        saveBudget() {
+            if ( this.includedServices.length > 0 && this.budgetName != '' && this.clientName != '') {
                 this.budgetsList.push({
                     id: this.budgetsList.length + 1,
                     name: this.budgetName,
@@ -155,14 +159,23 @@ export default {
                     budgetPrice: this.totalPrice
                 })
             } else {
-                console.log('You must provide both, a budget name and a client name, and choose at least one service');
+                alert('You must provide both, a budget name and a client name, and choose at least one service');
             }
-        }
+        },
+        
     }
 }
 </script>
 
 <style>
+.container-services-budgets{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    margin-bottom: 5em;
+}
+
 .extras{
     max-width: fit-content;
     margin: 1em 0;
@@ -186,3 +199,14 @@ ul {
 }
 </style>
 
+<!-- V A L I D A T E -->
+<!-- saveBudget(){
+    if (this.budgetsList.length === 0){
+        this.saveBudget()
+    }else if (this.budgetsList.map(data => data.name.includes(this.budgetName)) && this.budgetsList.map(data => data.client.includes(this.clientName))){
+        alert ('You already have created a budget with this name, please select another name before saving your new budget')
+    } else {
+        this.saveBudget()
+    }
+} -->
+<!-- V A L I D A T E -->
