@@ -1,15 +1,13 @@
 <template>
-    <form class="budget-box">
+    <form class="budget-box" @submit.prevent="saveBudget">
         <h3>Choose from the list bellow to create your budget</h3>
         <ul>
             <li v-for="item, id in services" :key="id">
-                
                 <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
                 {{ item.text}}
 
                 <div v-if="item.id === 1 && item.service" class="extras">
-                    <ExtrasWeb 
-                        @sumUpExtras="sumExtras"/>
+                    <ExtrasWeb :pages="pages" :languages="languages"/>
                     <ExtrasCounter 
                         :pages="pages"
                         :languages="languages"
@@ -17,13 +15,23 @@
                         @countTotalPages="sumTotalPages"
                         @countTotalLanguages="sumTotalLanguages" />
                 </div>
-
             </li>
         </ul>
         <h4> Total price: {{ totalPrice }} Eur</h4>
+
+        <div class="budget">
+            <label for="budget">Type a name for your new budget:</label>
+            <input type="text" v-model="budgetName" placeholder="">
+        </div>
+        <div>
+            <label for="budget">Type your name:</label>
+            <input type="text" v-model="clientName" placeholder="">
+        </div>
+    <button class="saveBudget">Save Budget</button>
+
     </form>
 
-    <Budgets />
+    <Budgets :budgetsList="budgetsList" />
 
     <router-link :to="{name: 'Welcome'}">
         <button>BACKWARDS</button>
@@ -36,9 +44,10 @@ import ExtrasWeb from '@/components/ExtrasWeb.vue'
 import ExtrasCounter from '@/components/ExtrasCounter.vue'
 import Budgets from '@/components/Budgets.vue'
 
+
 export default {
     name: 'HomeAlt',
-    components: { ExtrasWeb, ExtrasCounter, Budgets},
+    components: { ExtrasWeb, ExtrasCounter, Budgets },
     data() {
         return {
             services: [
@@ -54,6 +63,9 @@ export default {
             servicesPrice:0,
             totalPrice: 0,
             showWelcome: true,
+            budgetName: '',
+            clientName: '',
+            budgetsList: []
         }
     },
     methods: {
@@ -132,6 +144,19 @@ export default {
         sumTotalLanguages(languages) {
             this.languages = languages
             this.sumExtras(this.pages, languages)
+        },
+        saveBudget () {
+            if( this.includedServices.length > 0 && this.budgetName != '' && this.clientName != '') {
+                this.budgetsList.push({
+                    id: this.budgetsList.length + 1,
+                    name: this.budgetName,
+                    client: this.clientName,
+                    service: this.includedServices,
+                    budgetPrice: this.totalPrice
+                })
+            } else {
+                console.log('You must provide both, a budget name and a client name, and choose at least one service');
+            }
         }
     }
 }
@@ -160,3 +185,4 @@ ul {
   text-align: left;
 }
 </style>
+
