@@ -33,7 +33,10 @@
             </div>
             <button class="saveBudget">Save Budget</button>
         </form>
-        <Budgets class="budgets-list" :budgetsList="budgetsList" />
+        
+        <Budgets class="budgets-list"
+        :budgetsList="budgetsList"
+        @reset="deleteBudgetsList" />
     </div><!-- container-services-budgets -->
 
 
@@ -163,7 +166,14 @@ export default {
                 alert('You must provide both, a budget name and a client name, and choose at least one service');
             }
         },
-        
+        deleteBudgetsList() {
+            this.budgetsList = []
+            this.budgetName = ''
+            this.clientName = ''
+            this.services.map(item => item.service = false)
+            this.pages = 1
+            this.languages = 1
+        }
     }
 }
 </script>
