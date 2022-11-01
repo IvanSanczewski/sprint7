@@ -156,7 +156,8 @@ export default {
                     name: this.budgetName,
                     client: this.clientName,
                     service: this.includedServices,
-                    budgetPrice: this.totalPrice
+                    budgetPrice: this.totalPrice,
+                    date: Date.now()
                 })
             } else {
                 alert('You must provide both, a budget name and a client name, and choose at least one service');
