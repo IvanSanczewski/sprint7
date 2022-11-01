@@ -7,6 +7,12 @@
             <button @click="displayByDate"> Creation Order </button>
             <button @click="resetBudgetsList"> Reset Order </button>
         </div>
+
+        <form class="search" @submit.prevent="searchBudget">
+            <label for="search">Type a Budget name:</label>
+            <input type="text" v-model="search">
+            <button>Search Budget</button>
+        </form>
         
         <!-- <ul>
             <li v-for="item, id in buttons" :key="id">
@@ -50,6 +56,18 @@
                 <div class="separator"></div>
             </li>
         </ul>
+        <ul v-if="displaySearch">
+            <li v-for="item, id in budgetsListSearch" :key="id">
+                <p>Client: <strong>{{ item.client }}</strong>  -  Budget: <strong>{{ item.name }}</strong></p>
+                <!-- <h5>Services included: {{ item.service }}
+                        <li v-for="item, id in ITEM.SERVICE" :key="id">
+                            {{ item.text }}
+                        </li>
+                    </h5> -->
+                <p>Budget Total Price: <strong>{{ item.budgetPrice }}</strong> Eur</p>
+                <div class="separator"></div>
+            </li>
+        </ul>
 
     </div>
 </template>
@@ -64,8 +82,12 @@ export default {
             noSort: true,
             azSort: false,
             dateSort: false,
+            displaySearch: false,
             budgetsListAZ: [],
             budgetsListByDate: [],
+            budgetsListSearch: [],
+            search: ''
+
         }
     },
     methods: {
@@ -80,8 +102,8 @@ export default {
                 return 0;
             })
             
-            console.log(this.budgetsList);
-            console.log(this.budgetsListAZ);
+            console.log(this.budgetsList)
+            console.log(this.budgetsListAZ)
         },
         displayByDate() {
             this.noSort = false
@@ -94,8 +116,9 @@ export default {
                 return 0;
             })
             
-            console.log(this.budgetsList);
-            console.log(this.budgetsListByDate);
+            console.log(this.budgetsList)
+            console.log(this.budgetsListByDate)
+            console.log(this.searchBudgetName)
         },
         resetBudgetsList() {
             this.$emit('reset')
@@ -104,10 +127,20 @@ export default {
             this.noSort = true
             this.azSort = false
             this.dateSort = false
-            console.log(this.budgetsList);
-            console.log(this.budgetsListAZ);
-            console.log(this.budgetsListByDate);
         },
+        searchBudget() {
+            this.noSort = false
+            this.azSort = false
+            this.dateSort = false
+            this.displaySearch = true
+            this.budgetsListSearch = this.budgetsList
+            .filter(item => item.name.includes(this.search))
+
+
+            console.log(this.budgetsList)
+            console.log(this.budgetsListSearch)
+            console.log(this.search)
+        }
     }
 }
 
