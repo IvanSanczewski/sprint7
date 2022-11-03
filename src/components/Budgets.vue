@@ -5,7 +5,7 @@
         <div class="budgets-nav">
             <button @click="displayAZ"> Alphabetical Order </button>
             <button @click="displayByDate"> Creation Order </button>
-            <button @click="resetBudgetsList"> Reset Order </button>
+            <button @click="resetBudgetsList"> Delete All</button>
         </div>
 
         <form class="search" @submit.prevent="searchBudget">
@@ -86,15 +86,25 @@ export default {
             budgetsListAZ: [],
             budgetsListByDate: [],
             budgetsListSearch: [],
-            search: ''
-
+            search: '',
+        }
+    },
+    watch: {
+        budgetsList() {
+            console.log('budgetsList Listened!');
+            this.noSort = true
+            this.azSort = false
+            this.dateSort = false
+            this.displaySearch = false
         }
     },
     methods: {
         displayAZ() {
             this.noSort = false
-            this.dateSort = false
             this.azSort = true
+            this.dateSort = false
+            this.displaySearch = false
+            this.search = ''
             this.budgetsListAZ = [...this.budgetsList]
             .sort(function(a, z) {
                 if (a.name < z.name ) return -1;
@@ -106,40 +116,54 @@ export default {
             console.log(this.budgetsListAZ)
         },
         displayByDate() {
+            console.log('DISPLAY BY DATE');
             this.noSort = false
             this.azSort = false
             this.dateSort = true
+            this.displaySearch = false
+            this.search = ''
             this.budgetsListByDate = [...this.budgetsList]
             .sort(function(a, z) {
-                if (a.date < z.date ) return -1;
-                if (a.date > z.date ) return 1;
+                if (a.date < z.date) return -1;
+                if (a.date > z.date) return 1;
                 return 0;
             })
             
             console.log(this.budgetsList)
             console.log(this.budgetsListByDate)
-            console.log(this.searchBudgetName)
+            // console.log(this.searchBudgetName)
         },
         resetBudgetsList() {
             this.$emit('reset')
             this.budgetsListAZ = []
             this.budgetsListByDate = []
+            this.search = ''
             this.noSort = true
             this.azSort = false
             this.dateSort = false
+            this.displaySearch = false
         },
         searchBudget() {
             this.noSort = false
             this.azSort = false
             this.dateSort = false
             this.displaySearch = true
+
             this.budgetsListSearch = this.budgetsList
             .filter(item => item.name.includes(this.search))
 
-
-            console.log(this.budgetsList)
-            console.log(this.budgetsListSearch)
-            console.log(this.search)
+            if (this.budgetsListSearch.length === 0) {
+                alert('There is no budget with this name, please try again.')
+                this.search = ''
+                this.noSort = true
+            } else if (this.search === '') {
+                alert('You must insert a text to search')
+            } else if (this.budgetsList.length === 0) {
+                alert('There are no budgets yet.')
+                this.search = ''
+                this.displaySearch = true
+                this.noSort = true                
+            }
         }
     }
 }

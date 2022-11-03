@@ -30,7 +30,7 @@ export default {
             totalLanguages: 1,
         }
     },
-    watch:{
+    watch: {
         pages(){
             // make this.pages absolute number since watch is active on change of text type and may accept negative value
             this.totalPages = Math.abs(this.pages)

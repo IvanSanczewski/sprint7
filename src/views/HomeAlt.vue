@@ -160,8 +160,15 @@ export default {
                     client: this.clientName,
                     service: this.includedServices,
                     budgetPrice: this.totalPrice,
+                    // IS IT REALLY NEEDED IF ID IS INTRODUCED??
                     date: Date.now()
                 })
+                console.log(this.budgetsList);
+
+                // reset all services and budget saving options for a new budget
+                this.services.forEach(item => item.service = false)
+                this.budgetName = ''
+                this.clientName = ''
             } else {
                 alert('You must provide both, a budget name and a client name, and choose at least one service');
             }
@@ -209,15 +216,3 @@ ul {
   text-align: left;
 }
 </style>
-
-<!-- V A L I D A T E -->
-<!-- saveBudget(){
-    if (this.budgetsList.length === 0){
-        this.saveBudget()
-    }else if (this.budgetsList.map(data => data.name.includes(this.budgetName)) && this.budgetsList.map(data => data.client.includes(this.clientName))){
-        alert ('You already have created a budget with this name, please select another name before saving your new budget')
-    } else {
-        this.saveBudget()
-    }
-} -->
-<!-- V A L I D A T E -->
