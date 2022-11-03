@@ -167,6 +167,10 @@ export default {
 
                 // reset all services and budget saving options for a new budget
                 this.services.forEach(item => item.service = false)
+                this.pages = 1
+                this.languages = 1
+                this.extrasPrice = 0
+                this.totalPrice = 0
                 this.budgetName = ''
                 this.clientName = ''
             } else {
