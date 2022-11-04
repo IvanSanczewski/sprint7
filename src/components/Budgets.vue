@@ -45,7 +45,8 @@
             </li>
         </ul>
         <ul v-if="dateSort">
-            <li v-for="item, id in budgetsListByDate" :key="id">
+            <!-- <li v-for="item, id in budgetsListByDate" :key="id"> -->
+            <li v-for="item, id in budgetsList" :key="id">
                 <p>Client: <strong>{{ item.client }}</strong>  -  Budget: <strong>{{ item.name }}</strong></p>
                 <!-- <h5>Services included: {{ item.service }}
                         <li v-for="item, id in ITEM.SERVICE" :key="id">
@@ -81,10 +82,10 @@ export default {
         return {
             noSort: true,
             azSort: false,
-            dateSort: false,
+            // dateSort: false,
             displaySearch: false,
             budgetsListAZ: [],
-            budgetsListByDate: [],
+            // budgetsListByDate: [],
             budgetsListSearch: [],
             search: '',
         }
@@ -94,7 +95,7 @@ export default {
             console.log('budgetsList Listened!');
             this.noSort = true
             this.azSort = false
-            this.dateSort = false
+            // this.dateSort = false
             this.displaySearch = false
         }
     },
@@ -102,7 +103,7 @@ export default {
         displayAZ() {
             this.noSort = false
             this.azSort = true
-            this.dateSort = false
+            // this.dateSort = false
             this.displaySearch = false
             this.search = ''
             this.budgetsListAZ = [...this.budgetsList]
@@ -116,37 +117,54 @@ export default {
             console.log(this.budgetsListAZ)
         },
         displayByDate() {
-            console.log('DISPLAY BY DATE');
-            this.noSort = false
+            this.noSort = true
             this.azSort = false
-            this.dateSort = true
             this.displaySearch = false
             this.search = ''
-            this.budgetsListByDate = [...this.budgetsList]
-            .sort(function(a, z) {
-                if (a.date < z.date) return -1;
-                if (a.date > z.date) return 1;
-                return 0;
-            })
+            
+
+            // this.budgetsListByDate = [...this.budgetsList]
+            // .sort(function(a, z) {
+            //     if (a.date < z.date) return -1;
+            //     if (a.date > z.date) return 1;
+            //     return 0;
+            // })
             
             console.log(this.budgetsList)
-            console.log(this.budgetsListByDate)
-            // console.log(this.searchBudgetName)
         },
+        // displayByDate() {
+        //     console.log('DISPLAY BY DATE');
+        //     // this.noSort = false
+        //     this.azSort = false
+        //     // this.dateSort = true
+        //     this.displaySearch = false
+        //     this.noSort = true
+        //     this.search = ''
+        //     this.budgetsListByDate = [...this.budgetsList]
+        //     .sort(function(a, z) {
+        //         if (a.date < z.date) return -1;
+        //         if (a.date > z.date) return 1;
+        //         return 0;
+        //     })
+            
+        //     console.log(this.budgetsList)
+        //     // console.log(this.budgetsListByDate)
+        //     // console.log(this.searchBudgetName)
+        // },
         resetBudgetsList() {
             this.$emit('reset')
             this.budgetsListAZ = []
-            this.budgetsListByDate = []
+            // this.budgetsListByDate = []
             this.search = ''
             this.noSort = true
             this.azSort = false
-            this.dateSort = false
+            // this.dateSort = false
             this.displaySearch = false
         },
         searchBudget() {
             this.noSort = false
             this.azSort = false
-            this.dateSort = false
+            // this.dateSort = false
             this.displaySearch = true
 
             this.budgetsListSearch = this.budgetsList
@@ -158,6 +176,9 @@ export default {
                 this.noSort = true
             } else if (this.search === '') {
                 alert('You must insert a text to search')
+                this.search = ''
+                this.noSort = true
+                this.displaySearch = false
             } else if (this.budgetsList.length === 0) {
                 alert('There are no budgets yet.')
                 this.search = ''
