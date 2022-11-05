@@ -36,7 +36,16 @@
         
         <Budgets class="budgets-list"
         :budgetsList="budgetsList"
-        @reset="deleteBudgetsList" />
+        :budgetsListAZ="budgetsListAZ"
+        :budgetsListSearch="budgetsListSearch"
+        :noSort="noSort"
+        :azSort="azSort"
+        :displaySearch="displaySearch"
+        :searchWord="searchWord"
+        @sortListAZ="displayBudgetsListAZ"
+        @sortListByDate="displayBudgetsListByDate"
+        @reset="deleteBudgetsList"
+        @search="searchBudget" />
     </div><!-- container-services-budgets -->
 
 
@@ -73,7 +82,15 @@ export default {
             showWelcome: true,
             budgetName: '',
             clientName: '',
-            budgetsList: []
+            budgetsList: [],
+
+            budgetsListAZ: [],
+            budgetsListSearch: [],
+            noSort: true,
+            azSort: false,
+            displaySearch: false,
+            searchWord: ''
+
         }
     },
     methods: {
@@ -160,13 +177,17 @@ export default {
                     client: this.clientName,
                     service: this.includedServices,
                     budgetPrice: this.totalPrice,
-                    // IS IT REALLY NEEDED IF ID IS INTRODUCED??
-                    date: Date.now()
+                    // date is no longer needed since all budgets are pushed in a timeline
+                    // date: Date.now()
                 })
+                this.noSort = true
+                this.azSort = false
+                this.displaySearch = false
                 console.log(this.budgetsList);
 
                 // reset all services and budget saving options for a new budget
                 this.services.forEach(item => item.service = false)
+                this.includedServices = []
                 this.pages = 1
                 this.languages = 1
                 this.extrasPrice = 0
@@ -177,13 +198,69 @@ export default {
                 alert('You must provide both, a budget name and a client name, and choose at least one service');
             }
         },
+        displayBudgetsListAZ() {
+            this.noSort = false
+            this.azSort = true
+            this.displaySearch = false
+            // this.search = ''
+
+            this.budgetsListAZ = [...this.budgetsList]
+            .sort(function(a, z) {
+                if (a.name < z.name) return -1;
+                if (a.name > z.name) return 1;
+                return 0;
+            })
+            console.log(this.budgetsList)
+            console.log(this.budgetsListAZ)
+        },
+        displayBudgetsListByDate() {
+            this.noSort = true
+            this.azSort = false
+            this.displaySearch = false
+            // this.search = ''
+        },
         deleteBudgetsList() {
             this.budgetsList = []
+            this.budgetsListAZ = []
             this.budgetName = ''
             this.clientName = ''
             this.services.map(item => item.service = false)
             this.pages = 1
             this.languages = 1
+
+            this.noSort = true
+            this.azSort = false
+            this.displaySearch = false
+        },
+        searchBudget(searchWord) {
+            this.noSort = false
+            this.azSort = false
+            this.displaySearch = true
+            console.log(searchWord)
+            console.log(this.searchWord)
+            
+            this.budgetsListSearch = this.budgetsList
+            .filter(item => item.name.includes(searchWord))
+            console.log(searchWord)
+            console.log(this.budgetsList)
+            console.log(this.budgetsListSearch)
+            
+            if (this.budgetsListSearch.length === 0) {
+                alert('There is no budget with this name, please try again.')
+                this.searchWord = ''
+                this.noSort = true
+            } else if (searchWord === '') {
+                alert('You must insert a text to search')
+                this.searchWord = ''
+                this.noSort = true
+                this.displaySearch = false
+            } else if (this.budgetsList.length === 0) {
+                alert('There are no budgets to search yet.')
+                this.search = ''
+                this.displaySearch = true
+                this.noSort = true                
+            } 
+            console.log(searchWord)
         }
     }
 }

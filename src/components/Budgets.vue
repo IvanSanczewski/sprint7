@@ -3,14 +3,16 @@
         <h2>Budgets List:</h2>
         
         <div class="budgets-nav">
-            <button @click="displayAZ"> Alphabetical Order </button>
-            <button @click="displayByDate"> Creation Order </button>
+            <!-- <button @click="displayAZ"> Alphabetical Order </button> -->
+            <!-- <button @click="displayByDate"> Creation Order </button> -->
+            <button @click="sortAZ"> Alphabetical Order </button>
+            <button @click="sortByDate"> Creation Order </button>
             <button @click="resetBudgetsList"> Delete All</button>
         </div>
 
         <form class="search" @submit.prevent="searchBudget">
             <label for="search">Type a Budget name:</label>
-            <input type="text" v-model="search">
+            <input type="text" v-model="searchWord">
             <button>Search Budget</button>
         </form>
         
@@ -43,20 +45,7 @@
                 <p>Budget Total Price: <strong>{{ item.budgetPrice }}</strong> Eur</p>
                 <div class="separator"></div>
             </li>
-        </ul>
-        <ul v-if="dateSort">
-            <!-- <li v-for="item, id in budgetsListByDate" :key="id"> -->
-            <li v-for="item, id in budgetsList" :key="id">
-                <p>Client: <strong>{{ item.client }}</strong>  -  Budget: <strong>{{ item.name }}</strong></p>
-                <!-- <h5>Services included: {{ item.service }}
-                        <li v-for="item, id in ITEM.SERVICE" :key="id">
-                            {{ item.text }}
-                        </li>
-                    </h5> -->
-                <p>Budget Total Price: <strong>{{ item.budgetPrice }}</strong> Eur</p>
-                <div class="separator"></div>
-            </li>
-        </ul>
+        </ul> 
         <ul v-if="displaySearch">
             <li v-for="item, id in budgetsListSearch" :key="id">
                 <p>Client: <strong>{{ item.client }}</strong>  -  Budget: <strong>{{ item.name }}</strong></p>
@@ -76,62 +65,61 @@
 <script>
 export default {
     name: 'Budgets',
-    props: ['budgetsList'],
-    emits: ['reset'],
+    // props: ['budgetsList'],
+    props: ['budgetsList', 'budgetsListAZ', 'budgetsListSearch', 'noSort', 'azSort', 'displaySearch', 'searchWord'],
+    // emits: ['reset'],
+    emits: ['sortListAZ', 'sortListByDate', 'reset', 'search' ],
     data() {
         return {
-            noSort: true,
-            azSort: false,
+            // noSort: true,
+            // azSort: false,
             // dateSort: false,
-            displaySearch: false,
-            budgetsListAZ: [],
+            // displaySearch: false,
+            // budgetsListAZ: [],
             // budgetsListByDate: [],
-            budgetsListSearch: [],
-            search: '',
+            // budgetsListSearch: [],
+            // searchWord: '',
         }
     },
     watch: {
         budgetsList() {
             console.log('budgetsList Listened!');
-            this.noSort = true
-            this.azSort = false
+            // this.noSort = true
+            // this.azSort = false
+            // this.displaySearch = false
+         
             // this.dateSort = false
-            this.displaySearch = false
         }
     },
     methods: {
-        displayAZ() {
-            this.noSort = false
-            this.azSort = true
-            // this.dateSort = false
-            this.displaySearch = false
-            this.search = ''
-            this.budgetsListAZ = [...this.budgetsList]
-            .sort(function(a, z) {
-                if (a.name < z.name ) return -1;
-                if (a.name > z.name ) return 1;
-                return 0;
-            })
-            
-            console.log(this.budgetsList)
-            console.log(this.budgetsListAZ)
-        },
-        displayByDate() {
-            this.noSort = true
-            this.azSort = false
-            this.displaySearch = false
-            this.search = ''
-            
+        // displayAZ() {
+        //     this.noSort = false
+        //     this.azSort = true
+        //     // this.dateSort = false
+        //     this.displaySearch = false
+        //     this.search = ''
+        //     this.budgetsListAZ = [...this.budgetsList]
+        //     .sort(function(a, z) {
+        //         if (a.name < z.name) return -1;
+        //         if (a.name > z.name) return 1;
+        //         return 0;
+        //     })
 
-            // this.budgetsListByDate = [...this.budgetsList]
-            // .sort(function(a, z) {
-            //     if (a.date < z.date) return -1;
-            //     if (a.date > z.date) return 1;
-            //     return 0;
-            // })
-            
-            console.log(this.budgetsList)
+        //     console.log(this.budgetsList)
+        //     console.log(this.budgetsListAZ)
+        // },
+        sortAZ() {
+            this.$emit('sortListAZ')
         },
+        sortByDate() {
+            this.$emit('sortListByDate')
+        },
+        // displayByDate() {
+        //     this.noSort = true
+        //     this.azSort = false
+        //     this.displaySearch = false
+        //     this.search = ''
+        // },
         // displayByDate() {
         //     console.log('DISPLAY BY DATE');
         //     // this.noSort = false
@@ -153,38 +141,43 @@ export default {
         // },
         resetBudgetsList() {
             this.$emit('reset')
-            this.budgetsListAZ = []
+            
+            // this.search = ''
+
+
+            // this.budgetsListAZ = []
             // this.budgetsListByDate = []
-            this.search = ''
-            this.noSort = true
-            this.azSort = false
+            // this.noSort = true
+            // this.azSort = false
             // this.dateSort = false
-            this.displaySearch = false
+            // this.displaySearch = false
         },
         searchBudget() {
-            this.noSort = false
-            this.azSort = false
-            // this.dateSort = false
-            this.displaySearch = true
+            this.$emit('search', this.searchWord)
+            console.log(this.searchWord);
+            // this.noSort = false
+            // this.azSort = false
+            // // this.dateSort = false
+            // this.displaySearch = true
 
-            this.budgetsListSearch = this.budgetsList
-            .filter(item => item.name.includes(this.search))
+            // this.budgetsListSearch = this.budgetsList
+            // .filter(item => item.name.includes(this.search))
 
-            if (this.budgetsListSearch.length === 0) {
-                alert('There is no budget with this name, please try again.')
-                this.search = ''
-                this.noSort = true
-            } else if (this.search === '') {
-                alert('You must insert a text to search')
-                this.search = ''
-                this.noSort = true
-                this.displaySearch = false
-            } else if (this.budgetsList.length === 0) {
-                alert('There are no budgets yet.')
-                this.search = ''
-                this.displaySearch = true
-                this.noSort = true                
-            }
+            // if (this.budgetsListSearch.length === 0) {
+            //     alert('There is no budget with this name, please try again.')
+            //     this.search = ''
+            //     this.noSort = true
+            // } else if (this.search === '') {
+            //     alert('You must insert a text to search')
+            //     this.search = ''
+            //     this.noSort = true
+            //     this.displaySearch = false
+            // } else if (this.budgetsList.length === 0) {
+            //     alert('There are no budgets yet.')
+            //     this.search = ''
+            //     this.displaySearch = true
+            //     this.noSort = true                
+            // }
         }
     }
 }
@@ -206,5 +199,17 @@ export default {
 }
 </style>
 
-
+<ul v-if="dateSort">
+    <!-- <li v-for="item, id in budgetsListByDate" :key="id"> -->
+    <li v-for="item, id in budgetsList" :key="id">
+        <p>Client: <strong>{{ item.client }}</strong>  -  Budget: <strong>{{ item.name }}</strong></p>
+        <!-- <h5>Services included: {{ item.service }}
+                <li v-for="item, id in ITEM.SERVICE" :key="id">
+                    {{ item.text }}
+                </li>
+            </h5> -->
+        <p>Budget Total Price: <strong>{{ item.budgetPrice }}</strong> Eur</p>
+        <div class="separator"></div>
+    </li>
+</ul>
  
