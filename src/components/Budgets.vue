@@ -5,9 +5,9 @@
         <div class="budgets-nav">
             <!-- <button @click="displayAZ"> Alphabetical Order </button> -->
             <!-- <button @click="displayByDate"> Creation Order </button> -->
-            <button @click="sortAZ"> Alphabetical Order </button>
-            <button @click="sortByDate"> Creation Order </button>
-            <button @click="resetBudgetsList"> Delete All</button>
+            <div @click="sortAZ"> Alphabetical Order </div>
+            <div @click="sortByDate"> Creation Order </div>
+            <div @click="resetBudgetsList"> Delete All</div>
         </div>
 
         <form class="search" @submit.prevent="searchBudget">
@@ -185,10 +185,20 @@ export default {
 </script>
 
 <style>
-.budgets-list{
+
+
+.budgets-list {
     display: flex;
     flex-flow: column wrap;
     text-align: left;
+}
+
+.budgets-nav {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+
+    text-decoration: underline;
 }
 
 .separator {
