@@ -18,7 +18,13 @@ const routes = [
     path: '/home',
     name: 'HomeAlt',
     component: HomeAlt
-  }
+  },
+  // { 
+  //   path: '/home/:id&:slug&:pages&:languages',
+  //   name: 'HomeAlt',
+  //   component: HomeAlt,
+  //   props: true
+  // }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
