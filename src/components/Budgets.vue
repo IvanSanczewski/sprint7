@@ -5,23 +5,18 @@
         <div class="budgets-nav">
             <!-- <button @click="displayAZ"> Alphabetical Order </button> -->
             <!-- <button @click="displayByDate"> Creation Order </button> -->
-            <div @click="sortAZ"> Alphabetical Order </div>
-            <div @click="sortByDate"> Creation Order </div>
-            <div @click="resetBudgetsList"> Delete All</div>
+            
+            <p @click="sortAZ"> Alphabetical Order </p>
+            <p @click="sortByDate"> Creation Order </p>
+            <p @click="resetBudgetsList"> Delete All</p>
         </div>
 
         <form class="search" @submit.prevent="searchBudget">
-            <label for="search">Type a Budget name:</label>
+            <label for="search">Budget name:</label>
             <input type="text" v-model="searchWord">
             <button>Search Budget</button>
         </form>
         
-        <!-- <ul>
-            <li v-for="item, id in buttons" :key="id">
-                <button @click="item.function" >{{ item.text }}</button>
-            </li>
-        </ul> -->
-
         <ul v-if="noSort">
             <li v-for="item, id in budgetsList" :key="id">
                 <p>Client: <strong>{{ item.client }}</strong>  -  Budget: <strong>{{ item.name }}</strong></p>
@@ -186,19 +181,78 @@ export default {
 
 <style>
 
-
-.budgets-list {
+.budget-list {
     display: flex;
     flex-flow: column wrap;
-    text-align: left;
 }
 
 .budgets-nav {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
-    text-decoration: underline;
+    cursor: pointer;
+}
+
+.budgets-nav>p {
+    padding: .5em 1.2em;
+
+    color: #666;
+    background-color: #eee;
+}
+
+.budgets-nav>p:hover {
+    font-weight: 700;
+    
+    color: white;
+    background-color: #666;
+}
+
+.search {
+    margin: 1em 0;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
+
+.search input {
+    min-width: 180px;
+    padding: .5em 1em;
+
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    
+    color: #666;
+    background-color: #eee;
+    
+    /* box-sizing: border-box; */
+    border-bottom: 1px solid #aaa;
+}
+
+.search input:focus {
+    outline: none;
+}
+
+.search>button {
+    padding: .5em 1em;
+    
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+
+    color: #666;
+    background-color: #eee;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.search>button:hover {
+    color: white;
+    background-color: #666;
 }
 
 .separator {
@@ -207,6 +261,26 @@ export default {
     margin-bottom: 2em;
 
 }
+
+
+@media screen and (max-width: 490px){
+    .budgets-nav {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+    }
+
+    .search {
+        margin: 1em 0;
+        
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-evenly;
+        align-items: baseline;
+}
+
+}
+
 </style>
 
 <ul v-if="dateSort">
