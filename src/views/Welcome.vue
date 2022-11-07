@@ -16,7 +16,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 .container-welcome{
     display: flex;
     justify-content: center;
@@ -24,24 +25,41 @@ export default {
 
 .welcome {
     /* max-width: fit-content; */
-    max-width: 95vw;
+    /* max-width: 95vw; */
     margin-top: 3em;
-    padding: 0em 8em 2em 8em;
+    /* padding: 0em 8em 2em 8em; */
 
     font-size: x-large;
 
-    background-color: rgb(30, 237, 237);
+    /* background-color: rgb(30, 237, 237); */
 
-    border: 4px solid rgb(24, 128, 91);
-    border-radius: 1.2em;
+    /* border: 4px solid rgb(24, 128, 91); */
+    /* border-radius: 1.2em; */
 }
 
 button {
     margin: 1.8em 0 0 0;
     padding: 1em 3em;
+
+    font-size: large;
+    font-weight: 700;
+
+    color: white;
+    background-color: rgb(24, 128, 91) ;
+    
+    
+    border: 3px solid #add;
+    border-radius: .5em;
+
+    cursor: pointer;
+}   
+
+button:hover{
+    box-sizing: border-box;
+    border: 3px solid white
 }
 
-@media screen and (max-width: 992px){
+/* @media screen and (max-width: 992px){
     .welcome {
         padding: 0em 5em 2em 5em;
     }
@@ -57,6 +75,6 @@ button {
     .welcome {
         padding: 0em 1em 2em 1em;
     }
-}
+} */
 
 </style>
