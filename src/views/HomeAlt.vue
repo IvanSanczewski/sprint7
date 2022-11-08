@@ -3,38 +3,40 @@
     <div class="container-services-budgets">
         <form class="budget-box" @submit.prevent="saveBudget">
             <div class="services-list">
-                <h2>Choose from the list bellow to create your budget</h2>
+                <h2>Choose services for your budget</h2>
                 <ul>
                     <li v-for="item, id in services" :key="id">
-                        <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
-                        {{ item.text}}
-                        <div v-if="item.id === 1 && item.service" class="extras">
-                            <ExtrasWeb :pages="pages" :languages="languages"/>
-                            <ExtrasCounter
-                                :pages="pages"
-                                :languages="languages"
-                                @modifyExtras="modifyTotalExtras"
-                                @countTotalPages="sumTotalPages"
-                                @countTotalLanguages="sumTotalLanguages" />
-                        </div>
-                    </li>
-                </ul>
+                        <!-- <router-link :to="{name: 'HomeAlt', params:{id: item.id, slug:item.slug, service: item.service}}"> -->
+                            <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
+                                {{ item.text}}
+                                <div v-if="item.id === 1 && item.service" class="extras">
+                                    <ExtrasWeb :pages="pages" :languages="languages"/>
+                                    <ExtrasCounter
+                                        :pages="pages"
+                                        :languages="languages"
+                                        @modifyExtras="modifyTotalExtras"
+                                        @countTotalPages="sumTotalPages"
+                                        @countTotalLanguages="sumTotalLanguages" />
+                                </div>
+                            <!-- </router-link> -->
+                        </li>
+                    </ul>
                 <h4> Total price: {{ totalPrice }} Eur</h4>
             </div>
-            <div>
-                <div class="budget">
+            <div class="save-budget">
+                <div>
                     <label for="budget">Type a name for your new budget:</label>
-                    <input type="text" v-model="budgetName" placeholder="">
+                    <input type="text" v-model="budgetName">
                 </div>
                 <div>
                     <label for="budget">Type your name:</label>
-                    <input type="text" v-model="clientName" placeholder="">
+                    <input type="text" v-model="clientName">
                 </div>
             </div>
-            <button class="saveBudget">Save Budget</button>
+            <button class="app-btn">Save Budget</button>
         </form>
         
-        <Budgets class="budgets-list"
+        <Budgets 
         :budgetsList="budgetsList"
         :budgetsListAZ="budgetsListAZ"
         :budgetsListSearch="budgetsListSearch"
@@ -47,8 +49,6 @@
         @reset="deleteBudgetsList"
         @search="searchBudget" />
     </div><!-- container-services-budgets -->
-
-
 
     <router-link :to="{name: 'Welcome'}">
         <button>BACKWARDS</button>
@@ -68,9 +68,9 @@ export default {
     data() {
         return {
             services: [
-                {id: 1, service: false, text:'Website (500 €)', price: 500},
-                {id: 2, service: false, text:'SEO Consulting (300 €)', price: 300},
-                {id: 3, service: false, text:'Google Ads Campaign (200 €)', price: 200},
+                {id: 1, service: false, text:'Website (500 €)', price: 500, slug:'website'},
+                {id: 2, service: false, text:'SEO Consulting (300 €)', price: 300, slug:'seo'},
+                {id: 3, service: false, text:'Google Ads Campaign (200 €)', price: 200, slug:'googleAds'},
             ],
             includedServices: [],
             pages: 1,
@@ -266,17 +266,84 @@ export default {
 }
 </script>
 
-<style>
-.container-services-budgets{
+<style >
+
+/* button {
+    margin: 1.8em 0 0 0;
+    padding: 1em 3em;
+
+    font-size: large;
+    font-weight: 700;
+
+    color: red;
+    background-color: violet;
+
+    border: none;
+    border-radius: .5em;
+
+    cursor: pointer;
+} */
+
+
+
+.container-services-budgets {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
 
     margin-bottom: 5em;
 }
 
-.extras{
-    max-width: fit-content;
+.budget-box {
+    text-align: left;
+}
+
+.save-budget {
+    display: flex;
+    flex-flow: column wrap;
+    row-gap: 1em
+}
+
+.save-budget input {
+    width: 200px
+}
+
+.app-btn {
+    padding: .5em 1em;
+    
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    
+    color: #fefefe;
+    background-color: #155396;
+
+    border: 3px solid #add;
+    
+    cursor: pointer;
+}
+
+.app-btn:hover {
+    color: #155396;
+    background-color: #fefefe;
+}
+
+input {
+    min-width: 150px;
+    padding: .2em 0;
+
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    
+    color: #666;
+    background-color: #fefefe;
+    
+    /* box-sizing: border-box; */
+    border-bottom: 2px solid #aaa;
+} 
+
+.extras {
+    /* max-width: fit-content; */
     margin: 1em 0;
     padding: 1em;
 
@@ -288,12 +355,44 @@ export default {
     column-gap: 2.5em;
 }
 
-ul {
-  list-style: none;
-  padding-inline-start: 0;
+li>input {
+    min-width: 10px;
 }
 
-.budget-box {
-  text-align: left;
+ul {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+@media screen and (max-width: 992px) {
+    .container-services-budgets {
+        display: flex;
+        flex-flow: column wrap;
+        /* justify-content: center; */
+        align-content: center;
+        
+        row-gap: 3em;
+
+        margin-bottom: 0;
+    }
+}
+
+@media screen and (max-width: 490px){
+    .budget-box {
+        width: 80%;
+        margin: 0 auto
+    }
+
+    .save-budget input {
+        display: block;
+        margin:0
+    }
 }
 </style>
+
+
+<div v-for="job in jobs" :key="job.id" class="job">
+    <router-link :to="{name: 'JobDetails', params: { id: job.id }}">
+      <h2>{{ job.title }}</h2>
+    </router-link>
+  </div>

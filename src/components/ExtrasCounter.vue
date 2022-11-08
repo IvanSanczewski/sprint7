@@ -8,26 +8,43 @@
 
             <!-- 1 ÚNICA FUNCIÓN PARA TODO EL COMPONENTE -->
             <font-awesome-icon icon="fa-solid fa-plus" @click="changeExtrasAmount('pages', 'add')" class="product-btn"/>
-            <input type="text" v-model="pages" @change="countPages(pages)">
+            <input class="amount-inpt" type="text" v-model="pages" @change="countPages(pages)">
             <font-awesome-icon icon="fa-solid fa-minus" @click="changeExtrasAmount('pages', 'subtract')" class="product-btn"/>
+            <font-awesome-icon icon="fa-solid fa-circle-info" @click="launchModal('pages')" class="info-btn"/>
+            
+            <Modal
+            :modalPages="modalPages"
+            @close="launchModal('pages')" />
+            
         </div>
         <div class="amount">
             <font-awesome-icon icon="fa-solid fa-plus" @click="changeExtrasAmount('languages', 'add')" class="product-btn"/>
-            <input type="text" v-model="languages" @change="countLanguages(languages)">
+            <input class="amount-inpt" type="text" v-model="languages" @change="countLanguages(languages)">
             <font-awesome-icon icon="fa-solid fa-minus" @click="changeExtrasAmount('languages', 'subtract')" class="product-btn"/>
+            <font-awesome-icon icon="fa-solid fa-circle-info" @click="launchModal('languages')" class="info-btn"/>
+            
+            <Modal
+            :modalLanguages="modalLanguages"
+            @close="launchModal('languages')" />
+            
         </div>
     </div>
 </template>
 
 <script>
+import Modal from '@/components/Modal.vue'
+
 export default {
     name: 'ExtrasCounter',
+    components: { Modal },
     props: ['pages', 'languages'],
     emits: ['modifyExtras', 'countTotalPages', 'countTotalLanguages'],
     data() {
         return {
             totalPages: 1,
             totalLanguages: 1,
+            modalPages: false,
+            modalLanguages: false   
         }
     },
     watch: {
@@ -56,24 +73,50 @@ export default {
             this.totalLanguages = languages
             console.log(languages, this.totalLanguages)
             this.$emit('countTotalLanguages', this.totalLanguages)
+        },
+        launchModal(info) {
+            if (info === 'pages') {
+                this.modalPages = !this.modalPages
+            } else {
+                this.modalLanguages = !this.modalLanguages
+            }
         }
     }
 }
 </script>
 
 <style>
-.extras-amount{
+.extras-amount {
     display: flex;
     flex-flow: column wrap;
     row-gap: 1.5em;
 }
 
-.amount{
+.amount {
     display: flex;
-    flex-flow: row nowrap
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items:center ;
+    column-gap: .5em;
 }
 
-.product-btn{
-    cursor: pointer;
+.amount-inpt {
+    min-width: 50px
 }
+
+/* .product-btn {
+    background-color: #155396;
+    cursor: pointer;
+} */
+
+.info-btn {
+    color: #155396;
+    background: #fefefe;
+
+    border-radius: .5em;
+    font-size: 1.2em;
+
+    cursor: pointer
+}
+
 </style>

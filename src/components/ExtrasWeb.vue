@@ -42,8 +42,9 @@ input {
     font-size: .65em;
     font-weight: 400;
     
-    color: white;
-    background: coral;
+    color: #fefefe;
+    background: #155396;
+    cursor: pointer;
 
     border: none;
     border-radius: .5em;

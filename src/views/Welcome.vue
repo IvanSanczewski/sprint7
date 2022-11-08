@@ -1,5 +1,5 @@
 <template>
-    <div class="container-welcome">
+    <!-- <div class="container-welcome"> -->
         <div class="welcome">
             <h3>Welcome to</h3>
             <h1>WEB CREATORS</h1>
@@ -8,7 +8,7 @@
                 <button>START</button>
             </router-link>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .container-welcome{
     display: flex;
