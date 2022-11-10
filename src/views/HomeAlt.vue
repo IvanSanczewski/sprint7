@@ -10,7 +10,9 @@
                             <input type="checkbox" v-model="item.service" :value="item.price" @click="toggleWeb(item)">
                                 {{ item.text}}
                                 <div v-if="item.id === 1 && item.service" class="extras">
-                                    <ExtrasWeb :pages="pages" :languages="languages"/>
+                                    <ExtrasWeb 
+                                        :pages="pages" 
+                                        :languages="languages"/>
                                     <ExtrasCounter
                                         :pages="pages"
                                         :languages="languages"
@@ -236,14 +238,9 @@ export default {
             this.noSort = false
             this.azSort = false
             this.displaySearch = true
-            console.log(searchWord)
-            console.log(this.searchWord)
-            
+
             this.budgetsListSearch = this.budgetsList
             .filter(item => item.name.includes(searchWord))
-            console.log(searchWord)
-            console.log(this.budgetsList)
-            console.log(this.budgetsListSearch)
             
             if (this.budgetsListSearch.length === 0) {
                 alert('There is no budget with this name, please try again.')
@@ -260,32 +257,12 @@ export default {
                 this.displaySearch = true
                 this.noSort = true                
             } 
-            console.log(searchWord)
         }
     }
 }
 </script>
 
 <style >
-
-/* button {
-    margin: 1.8em 0 0 0;
-    padding: 1em 3em;
-
-    font-size: large;
-    font-weight: 700;
-
-    color: red;
-    background-color: violet;
-
-    border: none;
-    border-radius: .5em;
-
-    cursor: pointer;
-} */
-
-
-
 .container-services-budgets {
     display: flex;
     flex-flow: row wrap;
@@ -389,10 +366,3 @@ ul {
     }
 }
 </style>
-
-
-<div v-for="job in jobs" :key="job.id" class="job">
-    <router-link :to="{name: 'JobDetails', params: { id: job.id }}">
-      <h2>{{ job.title }}</h2>
-    </router-link>
-  </div>

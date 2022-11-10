@@ -11,7 +11,7 @@
             <input class="amount-inpt" type="text" v-model="pages" @change="countPages(pages)">
             <font-awesome-icon icon="fa-solid fa-minus" @click="changeExtrasAmount('pages', 'subtract')" class="product-btn"/>
             <font-awesome-icon icon="fa-solid fa-circle-info" @click="launchModal('pages')" class="info-btn"/>
-            
+
             <Modal
             :modalPages="modalPages"
             @close="launchModal('pages')" />
